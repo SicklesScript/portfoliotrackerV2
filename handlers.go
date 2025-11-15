@@ -9,6 +9,7 @@ import (
 	"github.com/google/uuid"
 
 	"github.com/SicklesScript/portfoliotrackerV2/internal/auth"
+	"github.com/SicklesScript/portfoliotrackerV2/internal/database"
 )
 
 func (cfg *apiConfig) handlerLoginView(w http.ResponseWriter, r *http.Request) {
@@ -17,8 +18,8 @@ func (cfg *apiConfig) handlerLoginView(w http.ResponseWriter, r *http.Request) {
 
 func (cfg *apiConfig) handlerLoginAPI(w http.ResponseWriter, r *http.Request) {
 	type parameters struct {
-		Email    string `json:"email"`
-		Password string `json:"password"`
+		Email    string `json:"userEmail"`
+		Password string `json:"userPassword"`
 	}
 
 	type response struct {
@@ -36,6 +37,7 @@ func (cfg *apiConfig) handlerLoginAPI(w http.ResponseWriter, r *http.Request) {
 		respondWithError(w, http.StatusInternalServerError, "Unable to decode json data", err)
 		return
 	}
+	defer r.Body.Close()
 
 	userData, err := cfg.dbQueries.GetUserByEmail(context.Background(), params.Email)
 	if err != nil {
@@ -65,4 +67,37 @@ func (cfg *apiConfig) handlerLoginAPI(w http.ResponseWriter, r *http.Request) {
 		CreatedAt: userData.CreatedAt,
 		UpdatedAt: userData.UpdatedAt,
 	})
+}
+
+func (cfg *apiConfig) handlerSignupApi(w http.ResponseWriter, r *http.Request) {
+	type parameters struct {
+		Email             string `json:"userEmail"`
+		Password          string `json:"userPass"`
+		PasswordConfirmed string `json:"userPassConfirmed"`
+	}
+
+	params := parameters{}
+	decoder := json.NewDecoder(r.Body)
+	err := decoder.Decode(&params)
+	if err != nil {
+		respondWithError(w, http.StatusInternalServerError, "Unable to decode json", err)
+		return
+	}
+
+	hashedPass, err := auth.HashPassword(params.Password)
+	if err != nil {
+		respondWithError(w, http.StatusInternalServerError, "Unable to hash password", err)
+		return
+	}
+
+	newUser, err := cfg.dbQueries.CreateUser(context.Background(), database.CreateUserParams{
+		Email:          params.Email,
+		HashedPassword: hashedPass,
+	})
+	if err != nil {
+		respondWithError(w, http.StatusForbidden, "User already exists", err)
+		return
+	}
+
+	respondWithJson(w, http.StatusOK, newUser)
 }

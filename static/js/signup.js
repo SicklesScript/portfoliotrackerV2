@@ -3,9 +3,17 @@ const form = document.getElementById("signup-form");
 form.addEventListener("submit", async(e) => {
     e.preventDefault();
 
-    const userEmail = document.getElementById("email")
-    const userPass = document.getElementById("password")
-    const userPassConfirmed = document.getElementById("passwordConfirmed")
+    const userEmail = document.getElementById("email").value
+    const userPass = document.getElementById("password").value
+    const userPassConfirmed = document.getElementById("passwordConfirmed").value
+
+    console.log(userPass);
+    console.log(userPassConfirmed);
+
+    if (userPass != userPassConfirmed) {
+        alert("Passwords do not match");
+        return;
+    };
 
     const data = {
         email: userEmail,
@@ -17,13 +25,13 @@ form.addEventListener("submit", async(e) => {
         const response = await fetch("/api/signup", {
             method: "POST",
             headers: {
-                "Cotent-Type": "application/json",
+                "Content-Type": "application/json",
             },
             body: JSON.stringify(data)
         });
 
         if (response.ok) {
-            window.location.href("/login")
+            window.location.href = "/login"
         } else {
             alert("Failed to create account")
         }

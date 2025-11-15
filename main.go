@@ -59,6 +59,7 @@ func main() {
 	mux.Handle("/", fs)
 	mux.HandleFunc("/login", apiCfg.handlerLoginView)
 	mux.HandleFunc("POST /api/login", apiCfg.handlerLoginAPI)
+	mux.HandleFunc("POST /api/signup", apiCfg.handlerSignupApi)
 
 	s := http.Server{
 		Handler: mux,
