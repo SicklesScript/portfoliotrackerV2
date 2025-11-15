@@ -12,16 +12,19 @@ import (
 	"github.com/SicklesScript/portfoliotrackerV2/internal/database"
 )
 
+// Function that serves login page
 func (cfg *apiConfig) handlerLoginView(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "./static/login.html")
 }
 
+// Function that validates user login attempt
 func (cfg *apiConfig) handlerLoginAPI(w http.ResponseWriter, r *http.Request) {
 	type parameters struct {
 		Email    string `json:"userEmail"`
 		Password string `json:"userPassword"`
 	}
 
+	// Attach token to json response for easier future authentication
 	type response struct {
 		ID        uuid.UUID `json:"id"`
 		Email     string    `json:"email"`
@@ -69,7 +72,13 @@ func (cfg *apiConfig) handlerLoginAPI(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
+/*
+Function that validates user signup, logs users to database
+User will be redirected to login page upon successful registration
+*/
 func (cfg *apiConfig) handlerSignupApi(w http.ResponseWriter, r *http.Request) {
+
+	// Password and PasswordConfirmed are checked in signup.js
 	type parameters struct {
 		Email             string `json:"userEmail"`
 		Password          string `json:"userPass"`

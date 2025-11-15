@@ -7,6 +7,7 @@ import (
 	"net/http"
 )
 
+// Helper function for json responses when error present
 func respondWithError(w http.ResponseWriter, statusCode int, body string, err error) {
 	if err != nil {
 		fmt.Println(err)
@@ -22,6 +23,7 @@ func respondWithError(w http.ResponseWriter, statusCode int, body string, err er
 	})
 }
 
+// Helper function for json responses when NO error present
 func respondWithJson(w http.ResponseWriter, statusCode int, payload interface{}) {
 	w.Header().Set("Content-Type", "application/json")
 	data, err := json.Marshal(payload)
