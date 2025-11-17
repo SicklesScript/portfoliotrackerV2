@@ -10,6 +10,24 @@ import (
 	"github.com/google/uuid"
 )
 
+type Portfolio struct {
+	ID        uuid.UUID
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	Name      string
+	UserID    uuid.UUID
+}
+
+type Transaction struct {
+	ID            uuid.UUID
+	Date          time.Time
+	StockName     string
+	Ticker        string
+	Shares        string
+	PricePerShare string
+	PortfolioID   uuid.UUID
+}
+
 type User struct {
 	ID             uuid.UUID
 	CreatedAt      time.Time
