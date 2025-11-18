@@ -60,6 +60,7 @@ func main() {
 	mux.HandleFunc("/login", apiCfg.handlerLoginView)
 	mux.HandleFunc("POST /api/login", apiCfg.handlerLoginAPI)
 	mux.HandleFunc("POST /api/signup", apiCfg.handlerSignupApi)
+	mux.HandleFunc("POST /api/createPortfolio", apiCfg.middlewareJWTAuthentication(apiCfg.handlerCreatePortfolio))
 
 	s := http.Server{
 		Handler: mux,

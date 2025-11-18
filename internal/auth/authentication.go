@@ -61,7 +61,6 @@ func ValidateJWT(tokenString, tokenSecret string) (uuid.UUID, error) {
 
 func GetBearerToken(headers http.Header) (string, error) {
 	val := headers.Get("Authorization")
-	var token string
 	if len(val) == 0 {
 		return "", fmt.Errorf("header not found")
 	}
@@ -69,11 +68,11 @@ func GetBearerToken(headers http.Header) (string, error) {
 	valTrimmed := strings.TrimSpace(val)
 	valSplit := strings.SplitN(valTrimmed, " ", 2)
 
-	if valSplit[0] != "Bearer" && len(valSplit[1]) != 0 {
-		token = strings.TrimSpace(valSplit[1])
-	} else {
-		return "", fmt.Errorf("unable to extract token")
+	if len(valSplit) == 2 && valSplit[0] == "Bearer" {
+		token := strings.TrimSpace(valSplit[1])
+		return token, nil
 	}
 
-	return token, nil
+	// If we reach this line, the header was malformed.
+	return "", fmt.Errorf("authorization header malformed or missing token")
 }

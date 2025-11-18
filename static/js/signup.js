@@ -5,20 +5,20 @@ form.addEventListener("submit", async(e) => {
     e.preventDefault();
 
     // Extracts form values 
-    const userEmail = document.getElementById("email").value
-    const userPass = document.getElementById("password").value
-    const userPassConfirmed = document.getElementById("passwordConfirmed").value
+    const email = document.getElementById("email").value
+    const pass = document.getElementById("password").value
+    const passConfirmed = document.getElementById("passwordConfirmed").value
 
     // If both password entries do not match, alert and return
-    if (userPass != userPassConfirmed) {
+    if (pass != passConfirmed) {
         alert("Passwords do not match");
         return;
     };
 
     const data = {
-        email: userEmail,
-        password: userPass,
-        passwordConfirmed: userPassConfirmed,
+        email: email,
+        password: pass,
+        passwordConfirmed: passConfirmed,
     };
 
     try {

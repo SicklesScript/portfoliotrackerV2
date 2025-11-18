@@ -20,8 +20,8 @@ func (cfg *apiConfig) handlerLoginView(w http.ResponseWriter, r *http.Request) {
 // Function that validates user login attempt
 func (cfg *apiConfig) handlerLoginAPI(w http.ResponseWriter, r *http.Request) {
 	type parameters struct {
-		Email    string `json:"userEmail"`
-		Password string `json:"userPassword"`
+		Email    string `json:"email"`
+		Password string `json:"password"`
 	}
 
 	// Attach token to json response for easier future authentication
@@ -80,9 +80,9 @@ func (cfg *apiConfig) handlerSignupApi(w http.ResponseWriter, r *http.Request) {
 
 	// Password and PasswordConfirmed are checked in signup.js
 	type parameters struct {
-		Email             string `json:"userEmail"`
-		Password          string `json:"userPass"`
-		PasswordConfirmed string `json:"userPassConfirmed"`
+		Email             string `json:"email"`
+		Password          string `json:"password"`
+		PasswordConfirmed string `json:"passwordConfirmed"`
 	}
 
 	params := parameters{}
@@ -104,7 +104,7 @@ func (cfg *apiConfig) handlerSignupApi(w http.ResponseWriter, r *http.Request) {
 		HashedPassword: hashedPass,
 	})
 	if err != nil {
-		respondWithError(w, http.StatusForbidden, "User already exists", err)
+		respondWithError(w, http.StatusConflict, "User already exists", err)
 		return
 	}
 
