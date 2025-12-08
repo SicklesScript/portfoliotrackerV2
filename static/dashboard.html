@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Portfolio Dashboard</title>
+    <link rel="stylesheet" href="/css/auth.css">
+    <style>
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        
+        /* Summary box styling */
+        .metrics-summary {
+            display: flex;
+            justify-content: space-between;
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+            margin-bottom: 25px;
+        }
+        .metric-item { display: flex; flex-direction: column; text-align: center; }
+        .metric-label { font-size: 0.85em; color: #666; text-transform: uppercase; letter-spacing: 0.5px; }
+        .metric-value { font-size: 1.8em; font-weight: bold; color: #2c3e50; }
+
+        /* Table styling */
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #f2f2f2; font-weight: 600; }
+        tr:nth-child(even) { background-color: #fcfcfc; }
+        
+        .btn-group { margin-bottom: 20px; }
+        .btn { margin-right: 10px; text-decoration: none; display: inline-block; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Portfolio Dashboard</h1>
+
+        <div class="metrics-summary">
+            <div class="metric-item">
+                <span class="metric-label">Total Value</span>
+                <span id="summary-total" class="metric-value">Loading...</span>
+            </div>
+            <div class="metric-item">
+                <span class="metric-label">Weighted ROE</span>
+                <span id="summary-roe" class="metric-value">-</span>
+            </div>
+            <div class="metric-item">
+                <span class="metric-label">Weighted ROIC</span>
+                <span id="summary-roic" class="metric-value">-</span>
+            </div>
+        </div>
+        
+        <div class="btn-group">
+            <a href="/transaction.html" class="btn">Add Transaction</a>
+            <a href="/manage.html" class="btn">New Portfolio</a>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Ticker</th>
+                    <th>Shares</th>
+                    <th>Avg Cost</th>
+                    <th>Total Value</th>
+                    <th>ROE</th>
+                    <th>ROIC</th>
+                    <th>Current Ratio</th>
+                </tr>
+            </thead>
+            <tbody id="dashboard-table-body">
+                </tbody>
+        </table>
+    </div>
+
+    <script src="/js/dashboard.js"></script>
+</body>
+</html>

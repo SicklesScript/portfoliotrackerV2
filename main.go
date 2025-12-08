@@ -61,6 +61,10 @@ func main() {
 	mux.HandleFunc("POST /api/login", apiCfg.handlerLoginAPI)
 	mux.HandleFunc("POST /api/signup", apiCfg.handlerSignupApi)
 	mux.HandleFunc("POST /api/createPortfolio", apiCfg.middlewareJWTAuthentication(apiCfg.handlerCreatePortfolio))
+	mux.HandleFunc("POST /api/createTransaction", apiCfg.middlewareJWTAuthentication(apiCfg.handlerCreateTransaction))
+	mux.HandleFunc("GET /api/getPortfolio", apiCfg.middlewareJWTAuthentication(apiCfg.handlerGetPortfolios))
+	mux.HandleFunc("GET /api/dashboard", apiCfg.middlewareJWTAuthentication(apiCfg.handlerGetDashboard))
+	mux.HandleFunc("GET /api/metrics", apiCfg.middlewareJWTAuthentication(apiCfg.handlerGetKeyMetrics))
 
 	s := http.Server{
 		Handler: mux,
